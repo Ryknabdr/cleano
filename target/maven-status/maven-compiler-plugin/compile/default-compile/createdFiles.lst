@@ -1,0 +1,10 @@
+com\mycompany\cleano\ui\LoginForm$2.class
+com\mycompany\cleano\ui\LoginForm$5.class
+com\mycompany\cleano\ui\LoginForm$4.class
+com\mycompany\cleano\ui\LoginForm$1.class
+com\mycompany\cleano\Cleano.class
+com\mycompany\cleano\model\User.class
+com\mycompany\cleano\ui\LoginForm$3.class
+com\mycompany\cleano\database\MongoConnection.class
+com\mycompany\cleano\ui\LoginForm.class
+com\mycompany\cleano\utils\InsertDefaultUsers.class
