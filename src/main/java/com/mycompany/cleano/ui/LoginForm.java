@@ -1,4 +1,4 @@
-package com.mycompany.cleano.ui;
+ package com.mycompany.cleano.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -181,7 +181,6 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtusernameActionPerformed
 
     private void btnloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginActionPerformed
-        // TODO add your handling code here:
         String username = txtusername.getText().trim();
         String password = new String(txtpassword.getPassword());
         String role = cmbrole.getSelectedItem().toString();
@@ -191,20 +190,14 @@ public class LoginForm extends javax.swing.JFrame {
             return;
         }
 
-             JOptionPane.showMessageDialog(this, "Login berhasil sebagai " + role);
-            if (role.equals("Admin")) {
-                // new AdminDashboard().setVisible(true);
-            } else {
-                // new KaryawanDashboard().setVisible(true);
-            }
-            this.dispose();if (authenticateUser(username, password, role)) {
+        if (authenticateUser(username, password, role)) {
             JOptionPane.showMessageDialog(this, "Login berhasil sebagai " + role);
             if (role.equals("Admin")) {
-                 new AdminDashboard().setVisible(true);
+                new AdminDashboard().setVisible(true);
             } else {
-                 new KaryawanDashboard().setVisible(true);
+                new KaryawanDashboard().setVisible(true);
             }
-            this.dispose();
+            this.dispose(); // tutup form login
         } else {
             JOptionPane.showMessageDialog(this, "Login gagal. Username/password/role salah.");
             txtpassword.setText("");
@@ -233,7 +226,7 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         // Contoh: Ubah placeholder berdasarkan role
         if (cmbrole.getSelectedItem().equals("Admin")) {
-            txtusername.setText("admin@washgo.com");
+            txtusername.setText("admin");
         } else {
             txtusername.setText("");
         }
@@ -286,7 +279,5 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtpassword;
     private javax.swing.JTextField txtusername;
     // End of variables declaration//GEN-END:variables
-
-   
 
 }

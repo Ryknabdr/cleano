@@ -13,14 +13,35 @@ import com.mongodb.client.MongoDatabase;
  * @author abdurraihan
  */
 public class MongoConnection {
-     private static final String URI = "mongodb://localhost:27017";
+      private static final String URI = "mongodb://localhost:27017";
     private static final String DB_NAME = "cleano";
 
-    private static final MongoClient mongoClient = MongoClients.create(URI);
-    private static final MongoDatabase database = mongoClient.getDatabase(DB_NAME);
+    private static MongoClient mongoClient = null;
+    private static MongoDatabase database = null;
+
+    static {
+        try {
+            mongoClient = MongoClients.create(URI);
+            database = mongoClient.getDatabase(DB_NAME);
+            System.out.println("✅ Koneksi MongoDB berhasil ke database: " + DB_NAME);
+        } catch (Exception e) {
+            System.err.println("❌ Gagal konek ke MongoDB: " + e.getMessage());
+        }
+    }
 
     public static MongoDatabase getDatabase() {
         return database;
+    }
+
+    public static MongoClient getClient() {
+        return mongoClient;
+    }
+
+    public static void closeConnection() {
+        if (mongoClient != null) {
+            mongoClient.close();
+            System.out.println("🔌 Koneksi MongoDB ditutup.");
+        }
     }
 }
 
