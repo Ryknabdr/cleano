@@ -4,6 +4,7 @@
  */
 package com.mycompany.cleano.ui;
 
+import com.mycompany.cleano.i18n.LanguageManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,7 +22,9 @@ public class KaryawanPanel extends javax.swing.JPanel {
     public KaryawanPanel() {
         initComponents();
         initTable();
-        
+        loadData();
+        applyLanguage();
+
     }
 
     private void initTable() {
@@ -200,13 +203,23 @@ public class KaryawanPanel extends javax.swing.JPanel {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         // TODO add your handling code here:
-        TambahKaryawan dialog = new TambahKaryawan((JFrame) SwingUtilities.getWindowAncestor(this), true);
-        dialog.setVisible(true);
-        if (dialog.isSimpan()) {
-            Object[] data = dialog.getData();
-             model.addRow(data);
-            // lanjutkan simpan ke database atau table
-        }
+       TambahKaryawan dialog = new TambahKaryawan((JFrame) SwingUtilities.getWindowAncestor(this), true);
+    dialog.setVisible(true);
+    if (dialog.isSimpan()) {
+        Object[] data = dialog.getData();
+
+        // Simpan ke database
+        com.mycompany.cleano.model.Karyawan k = new com.mycompany.cleano.model.Karyawan();
+        k.setId(data[0].toString());
+        k.setNama(data[1].toString());
+        k.setJabatan(data[2].toString());
+        k.setNoHp(data[3].toString());
+
+        com.mycompany.cleano.service.KaryawanDao dao = new com.mycompany.cleano.service.KaryawanDao();
+        dao.simpanKaryawan(k);
+
+        loadData(); // refresh tabel
+    }
 
     }//GEN-LAST:event_btnTambahActionPerformed
 
@@ -222,6 +235,23 @@ public class KaryawanPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Pilih baris yang ingin dihapus.");
         }
     }//GEN-LAST:event_btnHapusActionPerformed
+private void loadData() {
+    model.setRowCount(0); // bersihkan isi tabel dulu
+    com.mycompany.cleano.service.KaryawanDao dao = new com.mycompany.cleano.service.KaryawanDao();
+     java.util.List<com.mycompany.cleano.model.Karyawan> list = dao.getAllKaryawan();
+    
+    System.out.println("Jumlah data dari database: " + list.size()); // debug
+
+    for (com.mycompany.cleano.model.Karyawan k : dao.getAllKaryawan()) {
+        Object[] row = {
+            k.getId(),
+            k.getNama(),
+            k.getJabatan(),
+            k.getNoHp()
+        };
+        model.addRow(row);
+    }
+}
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -237,5 +267,21 @@ public class KaryawanPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    private void applyLanguage() {
+    jLabel21.setText(LanguageManager.get("karyawan.title"));
+    jLabel22.setText(LanguageManager.get("karyawan.subtitle"));
+    btnTambah.setText(LanguageManager.get("karyawan.button.add"));
+    btnEdit.setText(LanguageManager.get("karyawan.button.edit"));
+    btnHapus.setText(LanguageManager.get("karyawan.button.delete"));
+
+    model.setColumnIdentifiers(new String[]{
+        LanguageManager.get("karyawan.table.id"),
+        LanguageManager.get("karyawan.table.name"),
+        LanguageManager.get("karyawan.table.position"),
+        LanguageManager.get("karyawan.table.phone")
+    });
+}
+
 
 }

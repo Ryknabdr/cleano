@@ -4,6 +4,8 @@
  */
 package com.mycompany.cleano.ui;
 
+import com.mycompany.cleano.service.KaryawanDao;
+import com.mycompany.cleano.i18n.LanguageManager;
 import javax.swing.*;
 import java.awt.*;
 
@@ -22,8 +24,13 @@ public class TambahKaryawan extends javax.swing.JDialog {
         super(parent, "Tambah Karyawan", ModalityType.APPLICATION_MODAL);
         initComponents();
         cbJabatan.setModel(new javax.swing.DefaultComboBoxModel<>(
-    new String[] { "Admin", "Operator", "Kurir", "Kasir", "Manager" }
-));
+                new String[]{"Admin", "Operator", "Kurir", "Kasir", "Manager"}
+        ));
+        KaryawanDao dao = new KaryawanDao();
+        txtId.setText(generateIdKaryawan());
+        txtId.setEnabled(false); // agar tidak bisa diedit manual
+        LanguageManager lm = new LanguageManager();
+applyLanguage(); // menerapkan teks berdasarkan bahasa aktif
 
     }
 
@@ -171,6 +178,8 @@ public class TambahKaryawan extends javax.swing.JDialog {
     }
 
     /**
+     * A
+     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -225,4 +234,28 @@ public class TambahKaryawan extends javax.swing.JDialog {
     private javax.swing.JTextField txtNama;
     private javax.swing.JTextField txtTelepon;
     // End of variables declaration//GEN-END:variables
+
+    private String generateIdKaryawan() {
+        return "KRY-" + System.currentTimeMillis(); // contoh: KRY-1729912359281
+    }
+
+    private void applyLanguage() {
+    setTitle(LanguageManager.get("tambahkaryawan.title")); // contoh: "Tambah Karyawan"
+
+    jLabel1.setText(LanguageManager.get("tambahkaryawan.label.nama"));
+    jLabel2.setText(LanguageManager.get("tambahkaryawan.label.id"));
+    jLabel3.setText(LanguageManager.get("tambahkaryawan.label.telepon"));
+    jLabel4.setText(LanguageManager.get("tambahkaryawan.label.jabatan"));
+
+    btnsimpan.setText(LanguageManager.get("tambahkaryawan.btn.simpan"));
+    btnbatal.setText(LanguageManager.get("tambahkaryawan.btn.batal"));
+
+    cbJabatan.removeAllItems();
+    cbJabatan.addItem(LanguageManager.get("jabatan.admin"));
+    cbJabatan.addItem(LanguageManager.get("jabatan.operator"));
+    cbJabatan.addItem(LanguageManager.get("jabatan.kurir"));
+    cbJabatan.addItem(LanguageManager.get("jabatan.kasir"));
+    cbJabatan.addItem(LanguageManager.get("jabatan.manager"));
+}
+
 }

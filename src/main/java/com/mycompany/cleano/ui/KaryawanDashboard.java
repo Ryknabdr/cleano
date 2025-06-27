@@ -4,13 +4,12 @@
  */
 package com.mycompany.cleano.ui;
 
-import com.lavio.model.Order;
+import com.mycompany.cleano.model.Order;
+import com.mycompany.cleano.service.OrderDao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-
-
 
 /**
  *
@@ -23,6 +22,8 @@ public class KaryawanDashboard extends javax.swing.JFrame {
      */
     public KaryawanDashboard() {
         initComponents();
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Semua", "Proses", "Selesai", "Belum Selesai"}));
+        loadOrderan();
     }
 
     /**
@@ -97,13 +98,13 @@ public class KaryawanDashboard extends javax.swing.JFrame {
 
         tblorderan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "PELANGGAN", "TANGGAL MASUK", "TOTAL"
+                "ID", "PELANGGAN", "TANGGAL MASUK", "TOTAL", "STATUS"
             }
         ));
         jScrollPane1.setViewportView(tblorderan);
@@ -137,6 +138,11 @@ public class KaryawanDashboard extends javax.swing.JFrame {
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -212,58 +218,76 @@ public class KaryawanDashboard extends javax.swing.JFrame {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
         int confirm = JOptionPane.showConfirmDialog(this, "Yakin ingin logout?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-    if (confirm == JOptionPane.YES_OPTION) {
-        dispose(); // Menutup form dashboard
-        new LoginForm().setVisible(true); // Tampilkan form login (pastikan Login class ada)
-    }
+        if (confirm == JOptionPane.YES_OPTION) {
+            dispose(); // Menutup form dashboard
+            new LoginForm().setVisible(true); // Tampilkan form login (pastikan Login class ada)
+        }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         // TODO add your handling code here:
         TambahOrder formTambah = new TambahOrder(this, true); // dialog
-    formTambah.setVisible(true);
-    loadOrderan(); // reload tabel setelah tambah
+        formTambah.setVisible(true);
+        loadOrderan(); // reload tabel setelah tambah
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-         int selectedRow = tblorderan.getSelectedRow();
-    if (selectedRow >= 0) {
-        String id = tblorderan.getValueAt(selectedRow, 0).toString();
-        EditOrder formEdit = new EditOrder(this, true, id); // id dikirim ke form
-        formEdit.setVisible(true);
-        loadOrderan();
-    } else {
-        JOptionPane.showMessageDialog(this, "Pilih data terlebih dahulu");
-    }
+        int selectedRow = tblorderan.getSelectedRow();
+        if (selectedRow >= 0) {
+            String id = tblorderan.getValueAt(selectedRow, 0).toString();
+            EditOrder formEdit = new EditOrder(this, true, id); // id dikirim ke form
+            formEdit.setVisible(true);
+            loadOrderan();
+        } else {
+            JOptionPane.showMessageDialog(this, "Pilih data terlebih dahulu");
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
         int selectedRow = tblorderan.getSelectedRow();
-    if (selectedRow >= 0) {
-        String id = tblorderan.getValueAt(selectedRow, 0).toString();
-        int confirm = JOptionPane.showConfirmDialog(this, "Yakin hapus data?");
-        if (confirm == JOptionPane.YES_OPTION) {
-            new OrderDao().hapusOrder(id); // asumsi DAO sudah dibuat
-            loadOrderan();
+        if (selectedRow >= 0) {
+            String id = tblorderan.getValueAt(selectedRow, 0).toString();
+            int confirm = JOptionPane.showConfirmDialog(this, "Yakin hapus data?");
+            if (confirm == JOptionPane.YES_OPTION) {
+                new OrderDao().hapusOrder(id); // asumsi DAO sudah dibuat
+                loadOrderan();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Pilih data yang ingin dihapus");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Pilih data yang ingin dihapus");
-    }
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnLihatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatActionPerformed
         // TODO add your handling code here:
         int selectedRow = tblorderan.getSelectedRow();
-    if (selectedRow >= 0) {
-        String id = tblorderan.getValueAt(selectedRow, 0).toString();
-        LihatOrder formLihat = new LihatOrder(this, true, id);
-        formLihat.setVisible(true);
-    } else {
-        JOptionPane.showMessageDialog(this, "Pilih data terlebih dahulu");
-    }
+        if (selectedRow >= 0) {
+            String id = tblorderan.getValueAt(selectedRow, 0).toString();
+            LihatOrder formLihat = new LihatOrder(this, true, id);
+            formLihat.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Pilih data terlebih dahulu");
+        }
     }//GEN-LAST:event_btnLihatActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        String statusDipilih = jComboBox1.getSelectedItem().toString();
+        DefaultTableModel model = (DefaultTableModel) tblorderan.getModel();
+        model.setRowCount(0); // kosongkan tabel
+
+        List<Order> list = new OrderDao().getAllOrder(); // ambil semua order
+
+        for (Order o : list) {
+            // Jika "Semua" dipilih atau status cocok, tampilkan
+            if (statusDipilih.equals("Semua") || o.getStatus().equalsIgnoreCase(statusDipilih)) {
+                model.addRow(new Object[]{
+                    o.getId(), o.getPelanggan(), o.getTanggalMasuk(), o.getTotalHarga()
+                });
+            }
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,14 +343,19 @@ public class KaryawanDashboard extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void loadOrderan() {
-         DefaultTableModel model = (DefaultTableModel) tblorderan.getModel();
-    model.setRowCount(0); // kosongkan tabel
+        DefaultTableModel model = (DefaultTableModel) tblorderan.getModel();
+        model.setRowCount(0); // kosongkan tabel
 
-    List<Order> list = new OrderDao().getAllOrder(); // ambil data dari DB
-    for (Order o : list) {
-        model.addRow(new Object[]{
-            o.getId(), o.getNamaPelanggan(), o.getTanggalMasuk(), o.getTotal()
-        });
+        List<Order> list = new OrderDao().getAllOrder(); // ambil data dari DB
+        for (Order o : list) {
+            model.addRow(new Object[]{
+                o.getId(),
+                o.getPelanggan(),
+                o.getTanggalMasuk(),
+                o.getTotalHarga(),
+                o.getStatus() // tambahkan status
+            });
+        }
     }
-    }
+
 }

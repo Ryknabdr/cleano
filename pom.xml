@@ -6,11 +6,24 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <exec.mainClass>com.mycompany.cleano.Cleano</exec.mainClass>
-    </properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+</properties>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <mainClass>com.mycompany.cleano.ui.LoginForm</mainClass>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
     <dependencies>
         <!-- MongoDB Java Driver -->
         <dependency>
@@ -62,5 +75,6 @@
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
+        
     </dependencies>
 </project>

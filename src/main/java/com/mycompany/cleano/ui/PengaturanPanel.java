@@ -4,6 +4,12 @@
  */
 package com.mycompany.cleano.ui;
 
+import com.mycompany.cleano.i18n.LanguageManager;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 /**
  *
  * @author abdurraihan
@@ -15,6 +21,8 @@ public class PengaturanPanel extends javax.swing.JPanel {
      */
     public PengaturanPanel() {
         initComponents();
+        applyLanguage();
+
     }
 
     /**
@@ -35,20 +43,20 @@ public class PengaturanPanel extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtusernamelama = new javax.swing.JTextField();
+        txtusernamebaru = new javax.swing.JTextField();
+        txtpasswordbaru = new javax.swing.JTextField();
+        txtpasswordlama = new javax.swing.JTextField();
+        btnsimpan = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        cmbtemaapp = new javax.swing.JComboBox<>();
+        cmbbahasa = new javax.swing.JComboBox<>();
+        btnrestore = new javax.swing.JButton();
+        btnreset = new javax.swing.JButton();
+        btnbackup = new javax.swing.JButton();
 
         PengaturanPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -67,7 +75,36 @@ public class PengaturanPanel extends javax.swing.JPanel {
 
         jLabel8.setText("Username baru");
 
-        jButton1.setText("Simpan");
+        txtusernamelama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtusernamelamaActionPerformed(evt);
+            }
+        });
+
+        txtusernamebaru.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtusernamebaruActionPerformed(evt);
+            }
+        });
+
+        txtpasswordbaru.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpasswordbaruActionPerformed(evt);
+            }
+        });
+
+        txtpasswordlama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpasswordlamaActionPerformed(evt);
+            }
+        });
+
+        btnsimpan.setText("Simpan");
+        btnsimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsimpanActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -75,7 +112,7 @@ public class PengaturanPanel extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnsimpan)
                 .addGap(181, 181, 181))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
@@ -88,10 +125,10 @@ public class PengaturanPanel extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtusernamebaru, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtpasswordlama, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtusernamelama, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtpasswordbaru, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -108,19 +145,19 @@ public class PengaturanPanel extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtusernamelama, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtpasswordlama, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtusernamebaru, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
                         .addGap(5, 5, 5)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtpasswordbaru, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25)))
-                .addComponent(jButton1)
+                .addComponent(btnsimpan)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -132,28 +169,38 @@ public class PengaturanPanel extends javax.swing.JPanel {
 
         jLabel11.setText("Bahasa");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cmbtemaapp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbtemaapp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cmbtemaappActionPerformed(evt);
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        cmbbahasa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbbahasa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                cmbbahasaActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Restore");
-
-        jButton3.setText("Reset");
-
-        jButton4.setText("Backup");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnrestore.setText("Restore");
+        btnrestore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnrestoreActionPerformed(evt);
+            }
+        });
+
+        btnreset.setText("Reset");
+        btnreset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnresetActionPerformed(evt);
+            }
+        });
+
+        btnbackup.setText("Backup");
+        btnbackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbackupActionPerformed(evt);
             }
         });
 
@@ -168,17 +215,17 @@ public class PengaturanPanel extends javax.swing.JPanel {
                     .addComponent(jLabel10))
                 .addGap(63, 63, 63)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbtemaapp, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbbahasa, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
+                .addComponent(btnbackup)
                 .addGap(28, 28, 28)
-                .addComponent(jButton2)
+                .addComponent(btnrestore)
                 .addGap(35, 35, 35)
-                .addComponent(jButton3)
+                .addComponent(btnreset)
                 .addGap(77, 77, 77))
         );
         jPanel5Layout.setVerticalGroup(
@@ -194,17 +241,17 @@ public class PengaturanPanel extends javax.swing.JPanel {
                                 .addComponent(jLabel10))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cmbtemaapp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cmbbahasa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btnrestore)
+                    .addComponent(btnreset)
+                    .addComponent(btnbackup))
                 .addGap(42, 42, 42))
         );
 
@@ -256,27 +303,105 @@ public class PengaturanPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void cmbtemaappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbtemaappActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+        String tema = cmbtemaapp.getSelectedItem().toString();
+    if (tema.equals("Dark")) {
+        UIManager.put("Panel.background", new Color(40, 40, 40));
+        UIManager.put("Label.foreground", Color.WHITE);
+    } else {
+        UIManager.put("Panel.background", Color.WHITE);
+        UIManager.put("Label.foreground", Color.BLACK);
+    }
+    SwingUtilities.updateComponentTreeUI(this);
+    }//GEN-LAST:event_cmbtemaappActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+    private void cmbbahasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbbahasaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+         Object selectedItem = cmbbahasa.getSelectedItem();
+    if (selectedItem == null) return; // cegah NullPointerException
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    String selected = selectedItem.toString();
+    if (selected.equals("Indonesia")) {
+        LanguageManager.setLocale(new java.util.Locale("id"));
+    } else {
+        LanguageManager.setLocale(new java.util.Locale("en"));
+    }
+
+    applyLanguage(); // terjemahkan ulang
+    SwingUtilities.updateComponentTreeUI(SwingUtilities.getWindowAncestor(this)); // refresh UI
+    }//GEN-LAST:event_cmbbahasaActionPerformed
+
+    private void btnbackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbackupActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        try {
+        Runtime.getRuntime().exec("mongodump --db cleano --out backup/");
+        JOptionPane.showMessageDialog(null, "Backup berhasil.");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Backup gagal: " + e.getMessage());
+    }
+    }//GEN-LAST:event_btnbackupActionPerformed
+
+    private void txtusernamelamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusernamelamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtusernamelamaActionPerformed
+
+    private void txtpasswordlamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpasswordlamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtpasswordlamaActionPerformed
+
+    private void txtusernamebaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusernamebaruActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtusernamebaruActionPerformed
+
+    private void txtpasswordbaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpasswordbaruActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtpasswordbaruActionPerformed
+
+    private void btnrestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrestoreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnrestoreActionPerformed
+
+    private void btnresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnresetActionPerformed
+        // TODO add your handling code here:                                       
+    txtusernamelama.setText("");
+    txtpasswordlama.setText("");
+    txtusernamebaru.setText("");
+    txtpasswordbaru.setText("");
+    }//GEN-LAST:event_btnresetActionPerformed
+
+    private void btnsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsimpanActionPerformed
+        // TODO add your handling code here:
+          String usernameLama = txtusernamelama.getText();
+    String passwordLama = txtpasswordlama.getText();
+    String usernameBaru = txtusernamebaru.getText();
+    String passwordBaru = txtpasswordbaru.getText();
+
+    // Validasi sederhana
+    if (usernameLama.isEmpty() || passwordLama.isEmpty() || usernameBaru.isEmpty() || passwordBaru.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Semua field harus diisi.");
+        return;
+    }
+
+    com.mycompany.cleano.service.UserDao dao = new com.mycompany.cleano.service.UserDao();
+    boolean berhasil = dao.updateUsernamePassword(usernameLama, passwordLama, usernameBaru, passwordBaru);
+
+    if (berhasil) {
+        JOptionPane.showMessageDialog(this, "Berhasil memperbarui akun.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Username atau password lama salah.");
+    }
+    }//GEN-LAST:event_btnsimpanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PengaturanPanel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JButton btnbackup;
+    private javax.swing.JButton btnreset;
+    private javax.swing.JButton btnrestore;
+    private javax.swing.JButton btnsimpan;
+    private javax.swing.JComboBox<String> cmbbahasa;
+    private javax.swing.JComboBox<String> cmbtemaapp;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
@@ -289,9 +414,48 @@ public class PengaturanPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField txtpasswordbaru;
+    private javax.swing.JTextField txtpasswordlama;
+    private javax.swing.JTextField txtusernamebaru;
+    private javax.swing.JTextField txtusernamelama;
     // End of variables declaration//GEN-END:variables
+
+   private void applyLanguage() {
+    // hapus listener sementara
+    java.awt.event.ActionListener[] listeners = cmbbahasa.getActionListeners();
+    for (java.awt.event.ActionListener l : listeners) {
+        cmbbahasa.removeActionListener(l);
+    }
+
+    jLabel3.setText(LanguageManager.get("pengaturan.title"));
+    jLabel4.setText(LanguageManager.get("pengaturan.account.title"));
+    jLabel5.setText(LanguageManager.get("pengaturan.account.username.old"));
+    jLabel6.setText(LanguageManager.get("pengaturan.account.password.old"));
+    jLabel7.setText(LanguageManager.get("pengaturan.account.password.new"));
+    jLabel8.setText(LanguageManager.get("pengaturan.account.username.new"));
+    btnsimpan.setText(LanguageManager.get("pengaturan.account.save"));
+
+    jLabel9.setText(LanguageManager.get("pengaturan.app.title"));
+    jLabel10.setText(LanguageManager.get("pengaturan.app.theme"));
+    jLabel11.setText(LanguageManager.get("pengaturan.app.language"));
+
+    btnbackup.setText(LanguageManager.get("pengaturan.app.backup"));
+    btnrestore.setText(LanguageManager.get("pengaturan.app.restore"));
+    btnreset.setText(LanguageManager.get("pengaturan.app.reset"));
+
+    // isi ulang bahasa tanpa trigger action
+    cmbbahasa.removeAllItems();
+    cmbbahasa.addItem("Indonesia");
+    cmbbahasa.addItem("English");
+
+    // set default jika belum dipilih
+    cmbbahasa.setSelectedItem(LanguageManager.getLocale().getLanguage().equals("id") ? "Indonesia" : "English");
+
+    // pasang kembali listener
+    for (java.awt.event.ActionListener l : listeners) {
+        cmbbahasa.addActionListener(l);
+    }
+}
+
+
 }

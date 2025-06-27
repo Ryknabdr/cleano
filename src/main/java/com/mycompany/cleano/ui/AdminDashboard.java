@@ -8,6 +8,9 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import javax.swing.*;
+import com.mycompany.cleano.i18n.LanguageManager;
+
+
 
 /**
  *
@@ -26,6 +29,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     public AdminDashboard() {
     try {
         initComponents();
+        applyLanguage();
+
         jPanel6.removeAll();
         // Inisialisasi panel
         dashboardPanel = new DashboardPanel();
@@ -78,6 +83,22 @@ private void showPanel(String panelName) {
         panelkonten.revalidate();                  // Refresh layout
         panelkonten.repaint();                     // Gambar ulang
     }
+
+    private void applyLanguage() {
+    setTitle(LanguageManager.get("admin.title")); // misal: "Dashboard Admin"
+
+    jLabel8.setText(LanguageManager.get("admin.title"));
+    jLabel9.setText(LanguageManager.get("admin.welcome"));
+    jLabel3.setText(LanguageManager.get("admin.incomeThisMonth"));
+    jLabel5.setText(LanguageManager.get("admin.todayOrder"));
+    jLabel7.setText(LanguageManager.get("admin.weeklyIncomeChart"));
+
+    btnDashboard.setText(LanguageManager.get("menu.dashboard"));
+    btnLaporan.setText(LanguageManager.get("menu.laporan"));
+    btnKaryawan.setText(LanguageManager.get("menu.karyawan"));
+    btnPengaturan.setText(LanguageManager.get("menu.pengaturan"));
+    btnLogout.setText(LanguageManager.get("menu.logout"));
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -230,12 +251,14 @@ private void showPanel(String panelName) {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel7)
-                .addContainerGap(417, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel7))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,8 +347,10 @@ private void showPanel(String panelName) {
                     .addComponent(jLabel9)
                     .addComponent(jLabel8))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,7 +388,7 @@ private void showPanel(String panelName) {
 
         getContentPane().add(panelkonten, "card2");
 
-        pack();
+        setBounds(0, 0, 748, 510);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPengaturanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPengaturanActionPerformed

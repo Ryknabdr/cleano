@@ -22,6 +22,12 @@ public class TambahOrder extends javax.swing.JDialog {
     public TambahOrder(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        jComboBox1.removeAllItems(); // kosongkan dulu
+        jComboBox1.addItem("Proses");
+        jComboBox1.addItem("Selesai");
+        jComboBox1.addItem("Belum Selesai");
+        txtId.setText(new OrderDao().generateOrderId());
+        txtId.setEditable(false);
     }
 
     /**
@@ -43,6 +49,8 @@ public class TambahOrder extends javax.swing.JDialog {
         txtPelanggan = new javax.swing.JTextField();
         txtTotalHarga = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,6 +94,15 @@ public class TambahOrder extends javax.swing.JDialog {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Status");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,7 +110,7 @@ public class TambahOrder extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSimpan)
-                .addGap(50, 50, 50)
+                .addGap(33, 33, 33)
                 .addComponent(btnBatal)
                 .addGap(68, 68, 68))
             .addGroup(layout.createSequentialGroup()
@@ -112,18 +129,23 @@ public class TambahOrder extends javax.swing.JDialog {
                             .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(9, 9, 9)
+                                    .addComponent(jLabel3)
+                                    .addGap(19, 19, 19))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jLabel4)
+                                    .addGap(41, 41, 41)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jLabel3)
-                                .addGap(19, 19, 19))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel4)
-                                .addGap(41, 41, 41)))
+                                .addComponent(jLabel5)))
                         .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(txtTotalHarga, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -148,7 +170,11 @@ public class TambahOrder extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(txtTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBatal)
                     .addComponent(btnSimpan))
@@ -181,6 +207,7 @@ public class TambahOrder extends javax.swing.JDialog {
         String pelanggan = txtPelanggan.getText();
         Date tanggalMasuk = jDateChooser1.getDate();
         String totalHargaStr = txtTotalHarga.getText();
+        String status = jComboBox1.getSelectedItem().toString(); // ambil status
 
         if (id.isEmpty() || pelanggan.isEmpty() || tanggalMasuk == null || totalHargaStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
@@ -191,22 +218,26 @@ public class TambahOrder extends javax.swing.JDialog {
             double totalHarga = Double.parseDouble(totalHargaStr);
 
             Order o = new Order();
-            o.setId(id);
+            o.setId(id); // ✅ ID otomatis
             o.setPelanggan(pelanggan);
             o.setTanggalMasuk(tanggalMasuk);
-            o.setTotal(totalHarga);
+            o.setTotalHarga(totalHarga);
+            o.setStatus(status); // set status
 
-            // Simpan ke database
             new OrderDao().simpanOrder(o);
 
             JOptionPane.showMessageDialog(this, "Order berhasil disimpan!");
-            dispose(); // Tutup form
+            dispose();
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Total harga harus berupa angka!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,11 +284,13 @@ public class TambahOrder extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatal;
     private javax.swing.JButton btnSimpan;
+    private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtPelanggan;
     private javax.swing.JTextField txtTotalHarga;

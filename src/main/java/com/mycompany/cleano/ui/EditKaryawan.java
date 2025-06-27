@@ -6,6 +6,8 @@ package com.mycompany.cleano.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import com.mycompany.cleano.i18n.LanguageManager;
+
 
 /**
  *
@@ -26,6 +28,7 @@ public class EditKaryawan extends javax.swing.JDialog {
 cbJabatan.setModel(new javax.swing.DefaultComboBoxModel<>(
     new String[] { "Admin", "Operator", "Kurir", "Kasir", "Manager" }
 ));
+ applyLanguage();
 
     }
 
@@ -195,4 +198,24 @@ public void setData(Object[] data) {
     private javax.swing.JTextField txtNama;
     private javax.swing.JTextField txtTelepon;
     // End of variables declaration//GEN-END:variables
+
+    private void applyLanguage() {
+    setTitle(LanguageManager.get("editkaryawan.title"));
+
+    jLabel1.setText(LanguageManager.get("editkaryawan.label.nama"));
+    jLabel2.setText(LanguageManager.get("editkaryawan.label.id"));
+    jLabel3.setText(LanguageManager.get("editkaryawan.label.telepon"));
+    jLabel4.setText(LanguageManager.get("editkaryawan.label.jabatan"));
+
+    jButton3.setText(LanguageManager.get("editkaryawan.btn.simpan"));
+    jButton1.setText(LanguageManager.get("editkaryawan.btn.batal"));
+
+    cbJabatan.removeAllItems();
+    cbJabatan.addItem(LanguageManager.get("jabatan.admin"));
+    cbJabatan.addItem(LanguageManager.get("jabatan.operator"));
+    cbJabatan.addItem(LanguageManager.get("jabatan.kurir"));
+    cbJabatan.addItem(LanguageManager.get("jabatan.kasir"));
+    cbJabatan.addItem(LanguageManager.get("jabatan.manager"));
+}
+
 }

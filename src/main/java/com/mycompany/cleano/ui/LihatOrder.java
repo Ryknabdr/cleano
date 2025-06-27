@@ -4,6 +4,10 @@
  */
 package com.mycompany.cleano.ui;
 
+import com.mycompany.cleano.model.Order;
+import com.mycompany.cleano.service.OrderDao;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author abdurraihan
@@ -13,17 +17,31 @@ public class LihatOrder extends javax.swing.JDialog {
     /**
      * Creates new form LihatOrder
      */
-    public LihatOrder(java.awt.Frame parent, boolean modal) {
+      public LihatOrder(java.awt.Frame parent, boolean modal, String id) {
         super(parent, modal);
         initComponents();
-        String id = null;
-        txtId.setText(id);
-        // TODO: Load data lainnya berdasarkan ID (kalau sudah punya data/DAO nanti)
-        txtId.setEditable(false); // agar tidak bisa diubah
-        cmbPelanggan.setEnabled(false);
-        txtTanggalMasuk.setEditable(false);
-        txtTanggalSelesai.setEditable(false);
-        txtTotal.setEditable(false);
+
+        
+        // Ambil data berdasarkan ID
+        Order order = new OrderDao().getOrderById(id);
+        if (order != null) {
+            txtId.setText(order.getId());
+            cmbPelanggan.removeAllItems();
+            cmbPelanggan.addItem(order.getPelanggan());
+            txtTanggalMasuk.setText(order.getTanggalMasuk().toString());
+            txtTanggalSelesai.setText(order.getTanggalSelesai() != null ? order.getTanggalSelesai().toString() : "-");
+            txtTotal.setText(String.valueOf(order.getTotalHarga()));
+
+            // Non-editable
+            txtId.setEditable(false);
+            cmbPelanggan.setEnabled(false);
+            txtTanggalMasuk.setEditable(false);
+            txtTanggalSelesai.setEditable(false);
+            txtTotal.setEditable(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Order tidak ditemukan");
+            dispose();
+        }
     }
 
     /**
@@ -60,6 +78,12 @@ public class LihatOrder extends javax.swing.JDialog {
         jLabel5.setText("Total Harga");
 
         cmbPelanggan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtTanggalSelesai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTanggalSelesaiActionPerformed(evt);
+            }
+        });
 
         btnkembali.setText("Kembali");
 
@@ -119,6 +143,10 @@ public class LihatOrder extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtTanggalSelesaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTanggalSelesaiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTanggalSelesaiActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -149,7 +177,8 @@ public class LihatOrder extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                LihatOrder dialog = new LihatOrder(new javax.swing.JFrame(), true);
+                String idOrder = "ID123"; // contoh id yang ada di database
+            LihatOrder dialog = new LihatOrder(new javax.swing.JFrame(), true, idOrder);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

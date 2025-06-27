@@ -1,4 +1,4 @@
- package com.mycompany.cleano.ui;
+package com.mycompany.cleano.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +8,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import com.mongodb.client.MongoCollection;
 import com.mycompany.cleano.database.MongoConnection;
+import com.mycompany.cleano.i18n.LanguageManager;
 import org.bson.Document;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -19,17 +20,27 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author abdurraihan
  */
-public class LoginForm extends javax.swing.JFrame {
+public final class LoginForm extends javax.swing.JFrame {
 
     /**
      * Creates new form LoginForm
      */
     public LoginForm() {
         initComponents();
+        applyLanguage();
 //        setupListeners();
         cmbrole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Admin", "Karyawan"}));
+        cmbbahasa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"English", "Indonesia"}));
+        cmbbahasa.setSelectedItem(LanguageManager.getCurrentLangCode().equals("id") ? "Indonesia" : "English");
+
     }
 
+    public void applyLanguage() {
+        setTitle(LanguageManager.get("login.title"));
+        jLabel2.setText(LanguageManager.get("login.username"));
+        jLabel3.setText(LanguageManager.get("login.password"));
+        btnlogin.setText(LanguageManager.get("login.button"));
+    }
 //    private void initComponents() {
 //        // Inisialisasi komponen GUI
 //        txtusername = new JTextField(15);
@@ -37,6 +48,7 @@ public class LoginForm extends javax.swing.JFrame {
 //        cmbrole = new JComboBox<>(new String[]{"Admin", "Karyawan"});
 //        btnlogin = new JButton("Login");
 //    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,6 +68,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnlogin = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        cmbbahasa = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,36 +123,50 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel5.setText("Go");
         jLabel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
 
+        cmbbahasa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbbahasa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbbahasaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtpassword)
-                        .addComponent(txtusername)
-                        .addComponent(cmbrole, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
-                .addGap(29, 29, 29))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(114, 114, 114)
-                .addComponent(btnlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)
+                        .addGap(67, 67, 67))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtpassword)
+                            .addComponent(txtusername)
+                            .addComponent(cmbrole, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(btnlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 18, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cmbbahasa, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
+                .addComponent(cmbbahasa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel5))
@@ -157,7 +184,7 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(cmbrole, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -232,6 +259,18 @@ public class LoginForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbroleActionPerformed
 
+    private void cmbbahasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbbahasaActionPerformed
+        // TODO add your handling code here:
+        String selected = cmbbahasa.getSelectedItem().toString();
+        if (selected.equals("English")) {
+            LanguageManager.setLanguage("en");
+        } else {
+            LanguageManager.setLanguage("id");
+        }
+
+        applyLanguage();
+    }//GEN-LAST:event_cmbbahasaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -269,6 +308,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnlogin;
+    private javax.swing.JComboBox<String> cmbbahasa;
     private javax.swing.JComboBox<String> cmbrole;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

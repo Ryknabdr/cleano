@@ -4,6 +4,12 @@
  */
 package com.mycompany.cleano.ui;
 
+import com.mycompany.cleano.service.OrderDao;
+import com.mycompany.cleano.utils.ChartBuilder;
+import java.util.Map;
+import javax.swing.JPanel;
+import com.mycompany.cleano.i18n.LanguageManager;
+
 /**
  *
  * @author abdurraihan
@@ -15,7 +21,34 @@ public class DashboardPanel extends javax.swing.JPanel {
      */
     public DashboardPanel() {
         initComponents();
+        updateDashboardData();
+        applyLanguage();
+
+
     }
+public void updateDashboardData() {
+    OrderDao dao = new OrderDao();
+
+    // Pendapatan bulan ini
+    double pendapatanBulanIni = dao.getTotalPendapatanBulanIni();
+    jLabel4.setText(String.format("Rp %,d", (int) pendapatanBulanIni));
+
+    // Order hari ini
+    int orderHariIni = dao.getJumlahOrderHariIni();
+    jLabel6.setText(String.valueOf(orderHariIni));
+
+    // Grafik mingguan (gunakan Recharts atau JFreeChart atau library buatan)
+    Map<String, Double> data = dao.getPendapatanMingguan();
+
+    JPanel chartPanel =ChartBuilder.createBarChart(
+    LanguageManager.get("admin.weeklyIncomeChart"),
+    LanguageManager.get("chart.day"),
+    LanguageManager.get("chart.currency"),
+    data
+    );
+
+    jScrollPane2.setViewportView(chartPanel);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,7 +76,7 @@ public class DashboardPanel extends javax.swing.JPanel {
 
         paneldashboard.setLayout(new java.awt.BorderLayout());
 
-        jpanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jpanel6.setBackground(new java.awt.Color(153, 153, 153));
 
         jLabel9.setForeground(new java.awt.Color(204, 204, 204));
         jLabel9.setText("Selamat Datang Di Dashboard Amin WashGo");
@@ -136,8 +169,8 @@ public class DashboardPanel extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -168,8 +201,7 @@ public class DashboardPanel extends javax.swing.JPanel {
                 .addGap(1, 1, 1)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         paneldashboard.add(jpanel6, java.awt.BorderLayout.CENTER);
@@ -182,7 +214,7 @@ public class DashboardPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(paneldashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+            .addComponent(paneldashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -211,4 +243,13 @@ public class DashboardPanel extends javax.swing.JPanel {
     private void switchPanel(String dashboard) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    public void applyLanguage() {
+    jLabel8.setText(LanguageManager.get("admin.title"));
+    jLabel9.setText(LanguageManager.get("admin.welcome"));
+    jLabel3.setText(LanguageManager.get("admin.incomeThisMonth"));
+    jLabel5.setText(LanguageManager.get("admin.todayOrder"));
+    jLabel7.setText(LanguageManager.get("admin.weeklyIncomeChart"));
+}
+
 }

@@ -8,37 +8,47 @@ import com.mycompany.cleano.service.OrderDao;
 import com.mycompany.cleano.model.Order;
 import java.util.Date;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author abdurraihan
  */
 public class EditOrder extends javax.swing.JDialog {
 
-     private String id;
+    private String id;
     private final OrderDao orderDao = new OrderDao();
+
     /**
      * Creates new form EditOrder
      */
-    public EditOrder(java.awt.Frame parent, boolean modal) {
-         super(parent, modal);
+    public EditOrder(java.awt.Frame parent, boolean modal, String id) {
+        super(parent, modal);
         this.id = id;
         initComponents();
+        txtId.setEditable(false);
         loadOrderData();
-         txtId.setEditable(false);
-
+        jComboBox1.removeAllItems();
+        jComboBox1.addItem("Proses");
+        jComboBox1.addItem("Selesai");
+        jComboBox1.addItem("Belum Selesai");
+        btnSimpan.setText("Simpan");
+    
     }
+
     private void loadOrderData() {
-       Order order = orderDao.getOrderById(id);
-        if (order != null) {
-            txtId.setText(order.getId());
-            txtPelanggan.setText(order.getPelanggan());
-            jDateChooser1.setDate(order.getTanggalMasuk());
-            txtTotalHarga.setText(String.valueOf(order.getTotalHarga()));
-        } else {
-            JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
-            dispose();
+         Order order = orderDao.getOrderById(id);
+    if (order != null) {
+        txtId.setText(order.getId());
+        txtPelanggan.setText(order.getPelanggan());
+        jDateChooser1.setDate(order.getTanggalMasuk());
+        txtTotalHarga.setText(String.valueOf(order.getTotalHarga()));
+        jComboBox1.setSelectedItem(order.getStatus()); // Tampilkan status
+    } else {
+        JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+        dispose();
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,6 +68,8 @@ public class EditOrder extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -101,6 +113,15 @@ public class EditOrder extends javax.swing.JDialog {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Status");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,37 +129,43 @@ public class EditOrder extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSimpan)
-                .addGap(50, 50, 50)
+                .addGap(45, 45, 45)
                 .addComponent(btnBatal)
-                .addGap(68, 68, 68))
+                .addGap(65, 65, 65))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel2)))
-                        .addGap(69, 69, 69)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jLabel3)
-                                .addGap(19, 19, 19))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel4)
-                                .addGap(41, 41, 41)))
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(9, 9, 9)
+                                    .addComponent(jLabel1))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jLabel2)))
+                            .addGap(69, 69, 69)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(9, 9, 9)
+                                    .addComponent(jLabel3)
+                                    .addGap(19, 19, 19))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jLabel4)
+                                    .addGap(41, 41, 41)))
+                            .addGap(22, 22, 22)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -163,11 +190,15 @@ public class EditOrder extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(txtTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBatal)
-                    .addComponent(btnSimpan))
-                .addGap(61, 61, 61))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSimpan)
+                    .addComponent(btnBatal))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -180,25 +211,40 @@ public class EditOrder extends javax.swing.JDialog {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         // TODO add your handling code here:
-         String pelanggan = txtPelanggan.getText();
-        Date tanggalMasuk = jDateChooser1.getDate();
-        String totalHargaStr = txtTotalHarga.getText();
+        System.out.println("Tombol Simpan diklik!");
+     String pelanggan = txtPelanggan.getText();
+    Date tanggalMasuk = jDateChooser1.getDate();
+    String totalHargaStr = txtTotalHarga.getText();
+    String status = jComboBox1.getSelectedItem().toString(); // ambil status dari combo box
 
-        if (pelanggan.isEmpty() || tanggalMasuk == null || totalHargaStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
+    if (pelanggan.isEmpty() || tanggalMasuk == null || totalHargaStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        double totalHarga = Double.parseDouble(totalHargaStr);
+        Order updatedOrder = new Order();
+        updatedOrder.setId(id);
+        updatedOrder.setPelanggan(pelanggan);
+        updatedOrder.setTanggalMasuk(tanggalMasuk);
+        updatedOrder.setTotalHarga(totalHarga);
+        updatedOrder.setStatus(status);
+
+        // Jika status "Selesai", simpan tanggal selesai sekarang
+        if ("Selesai".equalsIgnoreCase(status)) {
+            updatedOrder.setTanggalSelesai(new Date());
+        } else {
+            updatedOrder.setTanggalSelesai(null);
         }
 
-        try {
-            double totalHarga = Double.parseDouble(totalHargaStr);
-            Order updatedOrder = new Order(id, pelanggan, tanggalMasuk, totalHarga);
-            orderDao.updateOrder(updatedOrder);
-            JOptionPane.showMessageDialog(this, "Data berhasil diperbarui!");
-            dispose();
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Total harga harus berupa angka!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
-        }
-}
+        orderDao.updateOrder(updatedOrder); // simpan ke database
+        JOptionPane.showMessageDialog(this, "Data berhasil diperbarui!");
+        dispose();
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Total harga harus berupa angka!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+    }
+
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void txtTotalHargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalHargaActionPerformed
@@ -212,6 +258,10 @@ public class EditOrder extends javax.swing.JDialog {
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,37 +278,34 @@ public class EditOrder extends javax.swing.JDialog {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditOrder.class  
+            java.util.logging.Logger.getLogger(EditOrder.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(EditOrder.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditOrder.class  
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(EditOrder.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-} catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditOrder.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditOrder.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(EditOrder.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EditOrder dialog = new EditOrder(new javax.swing.JFrame(), true);
+                EditOrder dialog = new EditOrder(new javax.swing.JFrame(), true, "ID_ORDER_CONTOH");
+
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-public void windowClosing(java.awt.event.WindowEvent e) {
+                    public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
@@ -270,11 +317,13 @@ public void windowClosing(java.awt.event.WindowEvent e) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatal;
     private javax.swing.JButton btnSimpan;
+    private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtPelanggan;
     private javax.swing.JTextField txtTotalHarga;

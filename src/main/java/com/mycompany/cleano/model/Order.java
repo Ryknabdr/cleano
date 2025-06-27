@@ -11,32 +11,33 @@ import java.util.Date;
  * @author abdurraihan
  */
 public class Order {
+
     private String id;
     private String pelanggan;
     private Date tanggalMasuk;
     private double totalHarga;
+    private Date tanggalSelesai;
 
     public Order() {
     }
 
     public Order(String id, String pelanggan, Date tanggalMasuk, double totalHarga) {
-    this.id = id;
+        this.id = id;
         this.pelanggan = pelanggan;
         this.tanggalMasuk = tanggalMasuk;
         this.totalHarga = totalHarga;
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
+
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
-    public Object getTotalHarga() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
-     public String getPelanggan() {
+    public String getPelanggan() {
         return pelanggan;
     }
 
@@ -52,12 +53,34 @@ public class Order {
         this.tanggalMasuk = tanggalMasuk;
     }
 
-    public double getTotal() {
+    public double getTotalHarga() {
         return totalHarga;
     }
 
     public void setTotalHarga(double totalHarga) {
         this.totalHarga = totalHarga;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + id + ", pelanggan=" + pelanggan + ", tanggalMasuk=" + tanggalMasuk + ", totalHarga=" + totalHarga + '}';
+    }
+
+    public Object getTanggalSelesai() {
+        return tanggalSelesai;
+    }
+
+    public void setTanggalSelesai(Date date) {
+        this.tanggalSelesai = date;
+    }
+
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

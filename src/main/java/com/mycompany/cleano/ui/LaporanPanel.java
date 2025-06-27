@@ -4,6 +4,13 @@
  */
 package com.mycompany.cleano.ui;
 
+import com.mycompany.cleano.i18n.LanguageManager;
+import com.mycompany.cleano.model.Order;
+import com.mycompany.cleano.service.OrderDao;
+import static java.util.Collections.list;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author abdurraihan
@@ -15,7 +22,43 @@ public class LaporanPanel extends javax.swing.JPanel {
      */
     public LaporanPanel() {
         initComponents();
+         tampilkanLaporanHariIni();
+         applyLanguage();
+
     }
+private void tampilkanLaporanHariIni() {
+    OrderDao dao = new OrderDao();
+    List<Order> orders = dao.getOrderHariIni();
+
+    String[] columnNames = {
+    LanguageManager.get("laporan.column.id"),
+    LanguageManager.get("laporan.column.pelanggan"),
+    LanguageManager.get("laporan.column.tanggal"),
+    LanguageManager.get("laporan.column.total"),
+    LanguageManager.get("laporan.column.status")
+};
+
+    DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+    for (Order o : orders) {
+       Double total = o.getTotalHarga();
+String totalFormatted = (total != null)
+    ? String.format("Rp %,d", total.intValue())
+    : "Rp 0";
+
+
+
+        model.addRow(new Object[]{
+            o.getId(),
+            o.getPelanggan(),
+            o.getTanggalMasuk(),
+            totalFormatted,
+            o.getStatus()
+        });
+    }
+
+    jTable2.setModel(model);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,4 +174,19 @@ public class LaporanPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
+
+    private void applyLanguage() {
+    jLabel3.setText(LanguageManager.get("laporan.title"));
+
+    String[] columnNames = {
+        LanguageManager.get("laporan.column.id"),
+        LanguageManager.get("laporan.column.pelanggan"),
+        LanguageManager.get("laporan.column.tanggal"),
+        LanguageManager.get("laporan.column.total"),
+        LanguageManager.get("laporan.column.status")
+    };
+    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+    model.setColumnIdentifiers(columnNames);
+}
+
 }
