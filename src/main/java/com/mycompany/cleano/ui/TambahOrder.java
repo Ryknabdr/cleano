@@ -4,6 +4,7 @@
  */
 package com.mycompany.cleano.ui;
 
+import com.mycompany.cleano.i18n.LanguageManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -22,6 +23,7 @@ public class TambahOrder extends javax.swing.JDialog {
     public TambahOrder(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        applyLanguage();
         jComboBox1.removeAllItems(); // kosongkan dulu
         jComboBox1.addItem("Proses");
         jComboBox1.addItem("Selesai");
@@ -207,10 +209,19 @@ public class TambahOrder extends javax.swing.JDialog {
         String pelanggan = txtPelanggan.getText();
         Date tanggalMasuk = jDateChooser1.getDate();
         String totalHargaStr = txtTotalHarga.getText();
-        String status = jComboBox1.getSelectedItem().toString(); // ambil status
+        String status = jComboBox1.getSelectedItem().toString();
+        if (status.equals(LanguageManager.get("status.proses"))) {
+            status = "Proses";
+        } else if (status.equals(LanguageManager.get("status.selesai"))) {
+            status = "Selesai";
+        } else if (status.equals(LanguageManager.get("status.belumSelesai"))) {
+            status = "Belum Selesai";
+        }
 
         if (id.isEmpty() || pelanggan.isEmpty() || tanggalMasuk == null || totalHargaStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, LanguageManager.get("form.warning.emptyFields"),
+                    LanguageManager.get("form.warning.title"), JOptionPane.WARNING_MESSAGE);
+
             return;
         }
 
@@ -295,4 +306,21 @@ public class TambahOrder extends javax.swing.JDialog {
     private javax.swing.JTextField txtPelanggan;
     private javax.swing.JTextField txtTotalHarga;
     // End of variables declaration//GEN-END:variables
+
+    private void applyLanguage() {
+        setTitle(LanguageManager.get("tambahorder.title"));
+        jLabel1.setText(LanguageManager.get("tambahorder.id"));
+        jLabel2.setText(LanguageManager.get("tambahorder.pelanggan"));
+        jLabel3.setText(LanguageManager.get("tambahorder.tanggalMasuk"));
+        jLabel4.setText(LanguageManager.get("tambahorder.totalHarga"));
+        jLabel5.setText(LanguageManager.get("tambahorder.status"));
+        btnSimpan.setText(LanguageManager.get("button.simpan"));
+        btnBatal.setText(LanguageManager.get("button.batal"));
+
+        jComboBox1.removeAllItems();
+        jComboBox1.addItem(LanguageManager.get("status.proses"));
+        jComboBox1.addItem(LanguageManager.get("status.selesai"));
+        jComboBox1.addItem(LanguageManager.get("status.belumSelesai"));
+    }
+
 }

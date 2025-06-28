@@ -4,6 +4,7 @@
  */
 package com.mycompany.cleano.ui;
 
+import com.mycompany.cleano.i18n.LanguageManager;
 import com.mycompany.cleano.model.Order;
 import com.mycompany.cleano.service.OrderDao;
 import javax.swing.JOptionPane;
@@ -20,6 +21,7 @@ public class LihatOrder extends javax.swing.JDialog {
       public LihatOrder(java.awt.Frame parent, boolean modal, String id) {
         super(parent, modal);
         initComponents();
+        applyLanguage();
 
         
         // Ambil data berdasarkan ID
@@ -86,6 +88,11 @@ public class LihatOrder extends javax.swing.JDialog {
         });
 
         btnkembali.setText("Kembali");
+        btnkembali.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnkembaliActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,6 +154,11 @@ public class LihatOrder extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTanggalSelesaiActionPerformed
 
+    private void btnkembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnkembaliActionPerformed
+        // TODO add your handling code here:
+         this.dispose(); 
+    }//GEN-LAST:event_btnkembaliActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -203,4 +215,15 @@ public class LihatOrder extends javax.swing.JDialog {
     private javax.swing.JTextField txtTanggalSelesai;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
+
+    private void applyLanguage() {
+    setTitle(LanguageManager.get("lihatorder.title"));
+    jLabel1.setText(LanguageManager.get("lihatorder.id"));
+    jLabel2.setText(LanguageManager.get("lihatorder.pelanggan"));
+    jLabel3.setText(LanguageManager.get("lihatorder.tanggalMasuk"));
+    jLabel4.setText(LanguageManager.get("lihatorder.tanggalSelesai"));
+    jLabel5.setText(LanguageManager.get("lihatorder.total"));
+    btnkembali.setText(LanguageManager.get("button.kembali"));
+}
+
 }

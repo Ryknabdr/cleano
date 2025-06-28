@@ -4,6 +4,7 @@
  */
 package com.mycompany.cleano.ui;
 
+import com.mycompany.cleano.i18n.LanguageManager;
 import com.mycompany.cleano.service.OrderDao;
 import com.mycompany.cleano.model.Order;
 import java.util.Date;
@@ -25,6 +26,7 @@ public class EditOrder extends javax.swing.JDialog {
         super(parent, modal);
         this.id = id;
         initComponents();
+        applyLanguage();
         txtId.setEditable(false);
         loadOrderData();
         jComboBox1.removeAllItems();
@@ -42,10 +44,16 @@ public class EditOrder extends javax.swing.JDialog {
         txtPelanggan.setText(order.getPelanggan());
         jDateChooser1.setDate(order.getTanggalMasuk());
         txtTotalHarga.setText(String.valueOf(order.getTotalHarga()));
-        jComboBox1.setSelectedItem(order.getStatus()); // Tampilkan status
-    } else {
-        JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
-        dispose();
+         switch (order.getStatus()) {
+                case "Proses" -> jComboBox1.setSelectedItem(LanguageManager.get("status.proses"));
+                case "Selesai" -> jComboBox1.setSelectedItem(LanguageManager.get("status.selesai"));
+                case "Belum Selesai" -> jComboBox1.setSelectedItem(LanguageManager.get("status.belumSelesai"));
+                default -> jComboBox1.setSelectedIndex(0);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, LanguageManager.get("editorder.notfound"),
+                    LanguageManager.get("dialog.error"), JOptionPane.ERROR_MESSAGE);
+            dispose();
         }
     }
 
@@ -217,34 +225,43 @@ public class EditOrder extends javax.swing.JDialog {
     String totalHargaStr = txtTotalHarga.getText();
     String status = jComboBox1.getSelectedItem().toString(); // ambil status dari combo box
 
-    if (pelanggan.isEmpty() || tanggalMasuk == null || totalHargaStr.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    try {
-        double totalHarga = Double.parseDouble(totalHargaStr);
-        Order updatedOrder = new Order();
-        updatedOrder.setId(id);
-        updatedOrder.setPelanggan(pelanggan);
-        updatedOrder.setTanggalMasuk(tanggalMasuk);
-        updatedOrder.setTotalHarga(totalHarga);
-        updatedOrder.setStatus(status);
-
-        // Jika status "Selesai", simpan tanggal selesai sekarang
-        if ("Selesai".equalsIgnoreCase(status)) {
-            updatedOrder.setTanggalSelesai(new Date());
-        } else {
-            updatedOrder.setTanggalSelesai(null);
+      // Mapping status i18n ke DB
+        if (status.equals(LanguageManager.get("status.proses"))) {
+            status = "Proses";
+        } else if (status.equals(LanguageManager.get("status.selesai"))) {
+            status = "Selesai";
+        } else if (status.equals(LanguageManager.get("status.belumSelesai"))) {
+            status = "Belum Selesai";
         }
 
-        orderDao.updateOrder(updatedOrder); // simpan ke database
-        JOptionPane.showMessageDialog(this, "Data berhasil diperbarui!");
-        dispose();
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Total harga harus berupa angka!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
-    }
+        if (pelanggan.isEmpty() || tanggalMasuk == null || totalHargaStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, LanguageManager.get("dialog.required"),
+                    LanguageManager.get("dialog.warning"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
+        try {
+            double totalHarga = Double.parseDouble(totalHargaStr);
+            Order updatedOrder = new Order();
+            updatedOrder.setId(id);
+            updatedOrder.setPelanggan(pelanggan);
+            updatedOrder.setTanggalMasuk(tanggalMasuk);
+            updatedOrder.setTotalHarga(totalHarga);
+            updatedOrder.setStatus(status);
+
+            if ("Selesai".equalsIgnoreCase(status)) {
+                updatedOrder.setTanggalSelesai(new Date());
+            } else {
+                updatedOrder.setTanggalSelesai(null);
+            }
+
+            orderDao.updateOrder(updatedOrder);
+            JOptionPane.showMessageDialog(this, LanguageManager.get("editorder.success"));
+            dispose();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, LanguageManager.get("dialog.numberError"),
+                    LanguageManager.get("dialog.error"), JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void txtTotalHargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalHargaActionPerformed
@@ -328,4 +345,21 @@ public class EditOrder extends javax.swing.JDialog {
     private javax.swing.JTextField txtPelanggan;
     private javax.swing.JTextField txtTotalHarga;
     // End of variables declaration//GEN-END:variables
+
+    private void applyLanguage() {
+    setTitle(LanguageManager.get("editorder.title"));
+    jLabel1.setText(LanguageManager.get("tambahorder.id"));
+    jLabel2.setText(LanguageManager.get("tambahorder.pelanggan"));
+    jLabel3.setText(LanguageManager.get("tambahorder.tanggalMasuk"));
+    jLabel4.setText(LanguageManager.get("tambahorder.totalHarga"));
+    jLabel5.setText(LanguageManager.get("tambahorder.status"));
+    btnSimpan.setText(LanguageManager.get("button.simpan"));
+    btnBatal.setText(LanguageManager.get("button.batal"));
+
+    jComboBox1.removeAllItems();
+    jComboBox1.addItem(LanguageManager.get("status.proses"));
+    jComboBox1.addItem(LanguageManager.get("status.selesai"));
+    jComboBox1.addItem(LanguageManager.get("status.belumSelesai"));
+}
+
 }
