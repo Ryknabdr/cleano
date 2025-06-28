@@ -6,6 +6,8 @@ package com.mycompany.cleano.ui;
 
 import com.mycompany.cleano.model.Order;
 import com.mycompany.cleano.service.OrderDao;
+import com.mycompany.cleano.i18n.LanguageManager;
+import com.mycompany.cleano.i18n.LanguageManager;
 import java.util.List;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
@@ -24,6 +26,13 @@ public class KaryawanDashboard extends javax.swing.JFrame {
         initComponents();
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Semua", "Proses", "Selesai", "Belum Selesai"}));
         loadOrderan();
+         applyLanguage();
+         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{
+        LanguageManager.get("combo.all"),
+        LanguageManager.get("combo.processing"),
+        LanguageManager.get("combo.done"),
+        LanguageManager.get("combo.notdone")
+    }));
     }
 
     /**
@@ -217,11 +226,15 @@ public class KaryawanDashboard extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-        int confirm = JOptionPane.showConfirmDialog(this, "Yakin ingin logout?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+       int confirm = JOptionPane.showConfirmDialog(this,
+    LanguageManager.get("confirm.logout"),
+    LanguageManager.get("confirm"),
+    JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            dispose(); // Menutup form dashboard
-            new LoginForm().setVisible(true); // Tampilkan form login (pastikan Login class ada)
+        dispose(); // Tutup KaryawanDashboard
+        new LoginForm().setVisible(true);
         }
+
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
@@ -240,23 +253,18 @@ public class KaryawanDashboard extends javax.swing.JFrame {
             formEdit.setVisible(true);
             loadOrderan();
         } else {
-            JOptionPane.showMessageDialog(this, "Pilih data terlebih dahulu");
+            JOptionPane.showMessageDialog(this, LanguageManager.get("msg.select.data"));
+
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-        int selectedRow = tblorderan.getSelectedRow();
-        if (selectedRow >= 0) {
-            String id = tblorderan.getValueAt(selectedRow, 0).toString();
-            int confirm = JOptionPane.showConfirmDialog(this, "Yakin hapus data?");
-            if (confirm == JOptionPane.YES_OPTION) {
-                new OrderDao().hapusOrder(id); // asumsi DAO sudah dibuat
-                loadOrderan();
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Pilih data yang ingin dihapus");
-        }
+        int confirm = JOptionPane.showConfirmDialog(this,
+    LanguageManager.get("confirm.delete"),
+    LanguageManager.get("confirm"),
+    JOptionPane.YES_NO_OPTION);
+
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnLihatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatActionPerformed
@@ -357,5 +365,25 @@ public class KaryawanDashboard extends javax.swing.JFrame {
             });
         }
     }
+
+    private void applyLanguage() {
+    setTitle(LanguageManager.get("karyawan.dashboard.title"));
+
+    jLabel6.setText(LanguageManager.get("karyawan.dashboard.header"));
+    btnLogout.setText(LanguageManager.get("button.logout"));
+    btnTambah.setText(LanguageManager.get("button.add"));
+    btnEdit.setText(LanguageManager.get("button.edit"));
+    btnHapus.setText(LanguageManager.get("button.delete"));
+    btnLihat.setText(LanguageManager.get("button.view"));
+
+    DefaultTableModel model = (DefaultTableModel) tblorderan.getModel();
+    model.setColumnIdentifiers(new String[] {
+        LanguageManager.get("table.id"),
+        LanguageManager.get("table.customer"),
+        LanguageManager.get("table.date"),
+        LanguageManager.get("table.total"),
+        LanguageManager.get("table.status")
+    });
+}
 
 }

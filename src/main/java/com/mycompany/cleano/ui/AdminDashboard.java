@@ -10,8 +10,6 @@ import java.awt.Container;
 import javax.swing.*;
 import com.mycompany.cleano.i18n.LanguageManager;
 
-
-
 /**
  *
  * @author abdurraihan
@@ -22,53 +20,56 @@ public class AdminDashboard extends javax.swing.JFrame {
     private final LaporanPanel laporanPanel;
     private final KaryawanPanel karyawanPanel;
     private final PengaturanPanel pengaturanPanel;
+    private final LogPanel logPanel ;
 
     /**
      * Creates new form OwnerDashboard
      */
     public AdminDashboard() {
-    try {
-        initComponents();
-        applyLanguage();
+        try {
+            initComponents();
+            applyLanguage();
 
-        jPanel6.removeAll();
-        // Inisialisasi panel
-        dashboardPanel = new DashboardPanel();
-        laporanPanel = new LaporanPanel();
-        karyawanPanel = new KaryawanPanel();
-        pengaturanPanel = new PengaturanPanel();
+            jPanel6.removeAll();
+            // Inisialisasi panel
+            dashboardPanel = new DashboardPanel();
+            laporanPanel = new LaporanPanel();
+            karyawanPanel = new KaryawanPanel();
+            pengaturanPanel = new PengaturanPanel();
+            logPanel = new LogPanel();
 
-        // Atur layout panelisikonten ke CardLayout
-        jPanel6.setLayout(new CardLayout());
-        
-        // Tambahkan semua panel ke panelisikonten dengan nama
-        jPanel6.add(dashboardPanel, "dashboard");
-        jPanel6.add(laporanPanel, "laporan");
-        jPanel6.add(karyawanPanel, "karyawan");
-        jPanel6.add(pengaturanPanel, "pengaturan");
+            // Atur layout panelisikonten ke CardLayout
+            jPanel6.setLayout(new CardLayout());
 
-        // Tampilkan dashboard secara default
-        showPanel("dashboard");
+            // Tambahkan semua panel ke panelisikonten dengan nama
+            jPanel6.add(dashboardPanel, "dashboard");
+            jPanel6.add(laporanPanel, "laporan");
+            jPanel6.add(karyawanPanel, "karyawan");
+            jPanel6.add(pengaturanPanel, "pengaturan");
+            jPanel6.add(logPanel, "log");
+            // Tampilkan dashboard secara default
+            showPanel("dashboard");
 
-        System.out.println("AdminDashboard berhasil dimuat.");
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Gagal membuka AdminDashboard: " + e.getMessage());
-        throw new RuntimeException(e);
+            System.out.println("AdminDashboard berhasil dimuat.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal membuka AdminDashboard: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
-}
-private void showPanel(String panelName) {
-    try {
-        CardLayout cl = (CardLayout)(jPanel6.getLayout());
-        cl.show(jPanel6, panelName);
-        jPanel6.revalidate();
-        jPanel6.repaint();
-        System.out.println("Menampilkan panel: " + panelName);
-    } catch (Exception e) {
-        System.err.println("Gagal menampilkan panel " + panelName);
-        e.printStackTrace();
+
+    private void showPanel(String panelName) {
+        try {
+            CardLayout cl = (CardLayout) (jPanel6.getLayout());
+            cl.show(jPanel6, panelName);
+            jPanel6.revalidate();
+            jPanel6.repaint();
+            System.out.println("Menampilkan panel: " + panelName);
+        } catch (Exception e) {
+            System.err.println("Gagal menampilkan panel " + panelName);
+            e.printStackTrace();
+        }
     }
-}
 
     private void logout() {
         // Implementasi logout, misal kembali ke halaman login
@@ -77,28 +78,28 @@ private void showPanel(String panelName) {
         new LoginForm().setVisible(true);
     }
 
-    private void showPanel(JPanel panel) {
-        panelkonten.removeAll();                   // Kosongkan panel
-        panelkonten.add(panel);                    // Tambahkan panel baru
-        panelkonten.revalidate();                  // Refresh layout
-        panelkonten.repaint();                     // Gambar ulang
-    }
+//    private void showPanel(JPanel panel) {
+//        panelkonten.removeAll();                   // Kosongkan panel
+//        panelkonten.add(panel);                    // Tambahkan panel baru
+//        panelkonten.revalidate();                  // Refresh layout
+//        panelkonten.repaint();                     // Gambar ulang
+//    }
 
     private void applyLanguage() {
-    setTitle(LanguageManager.get("admin.title")); // misal: "Dashboard Admin"
+        setTitle(LanguageManager.get("admin.title")); // misal: "Dashboard Admin"
 
-    jLabel8.setText(LanguageManager.get("admin.title"));
-    jLabel9.setText(LanguageManager.get("admin.welcome"));
-    jLabel3.setText(LanguageManager.get("admin.incomeThisMonth"));
-    jLabel5.setText(LanguageManager.get("admin.todayOrder"));
-    jLabel7.setText(LanguageManager.get("admin.weeklyIncomeChart"));
+        jLabel8.setText(LanguageManager.get("admin.title"));
+        jLabel9.setText(LanguageManager.get("admin.welcome"));
+        jLabel3.setText(LanguageManager.get("admin.incomeThisMonth"));
+        jLabel5.setText(LanguageManager.get("admin.todayOrder"));
+        jLabel7.setText(LanguageManager.get("admin.weeklyIncomeChart"));
 
-    btnDashboard.setText(LanguageManager.get("menu.dashboard"));
-    btnLaporan.setText(LanguageManager.get("menu.laporan"));
-    btnKaryawan.setText(LanguageManager.get("menu.karyawan"));
-    btnPengaturan.setText(LanguageManager.get("menu.pengaturan"));
-    btnLogout.setText(LanguageManager.get("menu.logout"));
-}
+        btnDashboard.setText(LanguageManager.get("menu.dashboard"));
+        btnLaporan.setText(LanguageManager.get("menu.laporan"));
+        btnKaryawan.setText(LanguageManager.get("menu.karyawan"));
+        btnPengaturan.setText(LanguageManager.get("menu.pengaturan"));
+        btnLogout.setText(LanguageManager.get("menu.logout"));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,6 +122,7 @@ private void showPanel(String panelName) {
         btnLaporan = new javax.swing.JButton();
         btnKaryawan = new javax.swing.JButton();
         btnPengaturan = new javax.swing.JButton();
+        btnLog = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -211,17 +213,29 @@ private void showPanel(String panelName) {
             }
         });
 
+        btnLog.setText("Log");
+        btnLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPengaturan, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnPengaturan, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLog)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -235,6 +249,8 @@ private void showPanel(String panelName) {
                 .addComponent(btnKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(btnPengaturan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLog)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -393,22 +409,22 @@ private void showPanel(String panelName) {
 
     private void btnPengaturanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPengaturanActionPerformed
         // TODO add your handling code here:
-       showPanel("pengaturan");
+        showPanel("pengaturan");
     }//GEN-LAST:event_btnPengaturanActionPerformed
 
     private void btnKaryawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKaryawanActionPerformed
         // TODO add your handling code here:
-       showPanel("karyawan");
+        showPanel("karyawan");
     }//GEN-LAST:event_btnKaryawanActionPerformed
 
     private void btnLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaporanActionPerformed
         // TODO add your handling code here:
-        showPanel("laporan"); 
+        showPanel("laporan");
     }//GEN-LAST:event_btnLaporanActionPerformed
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
         // TODO add your handling code here:
-         showPanel("dashboard");
+        showPanel("dashboard");
     }//GEN-LAST:event_btnDashboardActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -417,6 +433,12 @@ private void showPanel(String panelName) {
         this.dispose(); // menutup jendela sekarang
         new LoginForm().setVisible(true); // ganti LoginForm dengan nama login kamu
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogActionPerformed
+        // TODO add your handling code here:
+        showPanel("log");
+
+    }//GEN-LAST:event_btnLogActionPerformed
 
     /**
      * @param args the command line arguments
@@ -458,6 +480,7 @@ private void showPanel(String panelName) {
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnKaryawan;
     private javax.swing.JButton btnLaporan;
+    private javax.swing.JButton btnLog;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnPengaturan;
     private javax.swing.JLabel jLabel1;

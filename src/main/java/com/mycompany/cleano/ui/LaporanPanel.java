@@ -9,6 +9,7 @@ import com.mycompany.cleano.model.Order;
 import com.mycompany.cleano.service.OrderDao;
 import static java.util.Collections.list;
 import java.util.List;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,7 +23,13 @@ public class LaporanPanel extends javax.swing.JPanel {
      */
     public LaporanPanel() {
         initComponents();
-         tampilkanLaporanHariIni();
+//         tampilkanLaporanHariIni();
+         new Thread(() -> {
+    List<Order> orders = new OrderDao().getOrderHariIni();
+    SwingUtilities.invokeLater(() -> tampilkanKeTabel(orders));
+}).start();
+
+         simpanLaporan();
          applyLanguage();
 
     }
@@ -187,6 +194,30 @@ String totalFormatted = (total != null)
     };
     DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
     model.setColumnIdentifiers(columnNames);
+}
+
+    private void simpanLaporan() {
+        OrderDao dao = new OrderDao();
+        dao.simpanLaporanHariIni();
+    }
+    private void tampilkanKeTabel(List<Order> orders) {
+    String[] columnNames = {
+        LanguageManager.get("laporan.column.id"),
+        LanguageManager.get("laporan.column.pelanggan"),
+        LanguageManager.get("laporan.column.tanggal"),
+        LanguageManager.get("laporan.column.total"),
+        LanguageManager.get("laporan.column.status")
+    };
+
+    DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+    for (Order o : orders) {
+        String totalFormatted = String.format("Rp %,d", (int) o.getTotalHarga());
+        model.addRow(new Object[]{
+            o.getId(), o.getPelanggan(), o.getTanggalMasuk(), totalFormatted, o.getStatus()
+        });
+    }
+
+    jTable2.setModel(model);
 }
 
 }

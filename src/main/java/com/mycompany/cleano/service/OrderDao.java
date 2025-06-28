@@ -224,4 +224,51 @@ public List<Order> getOrderHariIni() {
 
     return list;
 }
+public void simpanLaporanHariIni() {
+    MongoCollection<Document> collectionOrder = MongoConnection.getDatabase().getCollection("order");
+    MongoCollection<Document> collectionLaporan = MongoConnection.getDatabase().getCollection("laporan");
+
+    // Ambil range tanggal hari ini
+    Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+    Date startOfDay = cal.getTime();
+
+    cal.add(Calendar.DATE, 1);
+    Date endOfDay = cal.getTime();
+
+    // Hitung jumlah order dan total pendapatan hari ini
+    int jumlahOrder = 0;
+    double totalPendapatan = 0;
+
+    for (Document doc : collectionOrder.find(Filters.and(
+            Filters.gte("tanggalMasuk", startOfDay),
+            Filters.lt("tanggalMasuk", endOfDay)
+    ))) {
+        jumlahOrder++;
+        totalPendapatan += doc.getDouble("total");
+    }
+
+    // Buat format tanggal (tanpa jam)
+    String tanggalLaporan = new SimpleDateFormat("yyyy-MM-dd").format(startOfDay);
+
+    // Simpan ke koleksi "laporan"
+    Document laporan = new Document("tanggal", tanggalLaporan)
+            .append("jumlah_order", jumlahOrder)
+            .append("total_pendapatan", totalPendapatan);
+
+    // Cek apakah laporan hari ini sudah ada → kalau sudah, update saja
+    Document existing = collectionLaporan.find(Filters.eq("tanggal", tanggalLaporan)).first();
+    if (existing != null) {
+        collectionLaporan.updateOne(
+            Filters.eq("tanggal", tanggalLaporan),
+            new Document("$set", laporan)
+        );
+    } else {
+        collectionLaporan.insertOne(laporan);
+    }
+}
+
 }

@@ -9,6 +9,7 @@ import java.awt.event.FocusEvent;
 import com.mongodb.client.MongoCollection;
 import com.mycompany.cleano.database.MongoConnection;
 import com.mycompany.cleano.i18n.LanguageManager;
+import com.mycompany.cleano.service.LogDao;
 import org.bson.Document;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -218,6 +219,9 @@ public final class LoginForm extends javax.swing.JFrame {
         }
 
         if (authenticateUser(username, password, role)) {
+            // ✅ Simpan log login ke SQLite
+            LogDao logDao = new LogDao();
+            logDao.simpanLogLogin(username);
             JOptionPane.showMessageDialog(this, "Login berhasil sebagai " + role);
             if (role.equals("Admin")) {
                 new AdminDashboard().setVisible(true);
